@@ -42,7 +42,7 @@ public class SpeedA extends Check {
                 double deltaXZ = getUser().getProcessorManager().getMovementProcessor().getDeltaXZ();
                 double lastDeltaXZ = getUser().getProcessorManager().getMovementProcessor().getLastDeltaXZ();
 
-                double previousPredicted = (lastDeltaXZ * 0.91F);
+                double previousPredicted = (lastDeltaXZ * 0.91F) + 0.026F;
 
                 if (Math.abs(previousPredicted) < 0.005) {
                     previousPredicted = 0.0;
@@ -51,20 +51,17 @@ public class SpeedA extends Check {
                 double totalDifference = deltaXZ - previousPredicted;
 
                 if (!ground && !lastGround) {
-
-                    Bukkit.broadcastMessage("" + totalDifference);
-
-                    if (totalDifference > 0.005) {
-                        if (++this.threshold > 2.5) {
+                    if (totalDifference > 1e-12) {
+                        if (++this.threshold > 3.5) {
                             this.fail("Not following proper friction in air",
                                     "d=" + totalDifference,
                                     "t=" + this.threshold);
                         }
                     } else {
-                        this.threshold -= Math.min(this.threshold, .0001);
+                        this.threshold -= Math.min(this.threshold, .01);
                     }
                 } else {
-                    this.threshold -= Math.min(this.threshold, .0001);
+                    this.threshold -= Math.min(this.threshold, .001);
                 }
 
                 break;

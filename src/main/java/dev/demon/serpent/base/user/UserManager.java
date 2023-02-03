@@ -2,6 +2,7 @@ package dev.demon.serpent.base.user;
 
 import dev.demon.serpent.Serpent;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Map;
@@ -13,8 +14,10 @@ public class UserManager {
     private final Map<UUID, User> userMap = new ConcurrentHashMap<>();
 
     public void addUser(Player player) {
-        this.userMap.put(player.getUniqueId(), new User(player));
-        Serpent.getInstance().getCheckManager().loadToPlayer(new User(player));
+        User user = new User(player);
+
+        this.userMap.put(player.getUniqueId(), user);
+        Serpent.getInstance().getCheckManager().loadToPlayer(user);
     }
 
     public void removeUser(Player player) {

@@ -8,6 +8,7 @@ import lombok.Setter;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.ChatColor;
 
 @Getter
 @Setter
@@ -51,12 +52,14 @@ public abstract class Check extends Event {
             checkType += "*";
         }
 
-        String alert = "Serpent > "
-                + this.user.getUserName()
-                + " failed "
-                + this.checkName
-                + " (" + checkType + ")"
-                + " (" + this.violations + "/" + this.punishmentVL + ")";
+        String alert = ChatColor.GREEN + "Serpent > "
+                + ChatColor.WHITE + this.user.getUserName()
+                + ChatColor.GRAY + " failed "
+                + ChatColor.WHITE + this.checkName
+                + ChatColor.DARK_GRAY + " (" + ChatColor.WHITE + checkType + ChatColor.DARK_GRAY + ")"
+
+                + ChatColor.DARK_GRAY + " (" + ChatColor.RED + this.violations + ChatColor.DARK_GRAY
+                + "/" + ChatColor.RED + this.punishmentVL + ChatColor.DARK_GRAY + ")";
 
         TextComponent textComponent = new TextComponent(alert);
 

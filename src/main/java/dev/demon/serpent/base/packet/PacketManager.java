@@ -13,6 +13,9 @@ public class PacketManager extends PacketListenerAbstract {
     //Clientbound
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
+
+        PacketUtil.toPacketReceive(event);
+
         Player player = (Player) event.getPlayer();
 
         if (player == null) {
@@ -24,8 +27,6 @@ public class PacketManager extends PacketListenerAbstract {
         if (user == null) {
             return;
         }
-
-        PacketUtil.toPacketReceive(event);
 
         //Register clientbound packets for checks
         user.getChecks().forEach(check -> {
@@ -42,6 +43,8 @@ public class PacketManager extends PacketListenerAbstract {
     //Serverbound
     @Override
     public void onPacketSend(PacketSendEvent event) {
+        PacketUtil.toPacketSend(event);
+
         Player player = (Player) event.getPlayer();
 
         if (player == null) {
@@ -53,8 +56,6 @@ public class PacketManager extends PacketListenerAbstract {
         if (user == null) {
             return;
         }
-
-        PacketUtil.toPacketSend(event);
 
         //Register serverbound packets for checks
         user.getChecks().forEach(check -> {

@@ -29,32 +29,37 @@ public class Serpent extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        instance = this;
 
-        //Init packet events
-        PacketEvents.getAPI().init();
+        try {
+            instance = this;
 
-        //Listen for incoming and outgoing packets
-        PacketEvents.getAPI().getEventManager().registerListener(new PacketManager());
+            //Init packet events
+            PacketEvents.getAPI().init();
 
-        //Register listener for join and quit events.
-        new BukkitListener();
+            //Listen for incoming and outgoing packets
+            PacketEvents.getAPI().getEventManager().registerListener(new PacketManager());
 
-        this.checkManager = new CheckManager();
+            //Register listener for join and quit events.
+            new BukkitListener();
 
-        //Load the checks separate from the player to make it more accessible
-        this.checkManager.loadChecks();
+            this.checkManager = new CheckManager();
 
-        //Reset all check violation over time
-        this.checkService.scheduleAtFixedRate(() -> getUserManager().getUserMap().forEach((uuid, user) ->
-                        user.getChecks().forEach(check -> check.setViolations(0))),
-                1L, 3L, TimeUnit.MINUTES);
+            //Load the checks separate from the player to make it more accessible
+            this.checkManager.loadChecks();
 
+            //Reset all check violation over time
+            this.checkService.scheduleAtFixedRate(() -> getUserManager().getUserMap().forEach((uuid, user) ->
+                            user.getChecks().forEach(check -> check.setViolations(0))),
+                    1L, 3L, TimeUnit.MINUTES);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onLoad() {
-        //Load PacketEvents 2.0
+        //Load PacketEvents
         PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
         PacketEvents.getAPI().load();
     }

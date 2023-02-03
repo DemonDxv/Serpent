@@ -9,15 +9,16 @@ import dev.demon.serpent.utils.PacketUtil;
 import dev.demon.serpent.utils.location.FlyingLocation;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 
 @Getter
 @Setter
 @ProcessorInfo(name = "Movement")
 public class MovementProcessor extends Processor {
 
-    private final FlyingLocation to = new FlyingLocation();
-    private final FlyingLocation from = new FlyingLocation();
-    private final FlyingLocation fromFrom = new FlyingLocation();
+    private FlyingLocation to = new FlyingLocation();
+    private FlyingLocation from = new FlyingLocation();
+    private FlyingLocation fromFrom = new FlyingLocation();
 
     private double deltaX, deltaY, deltaZ, deltaXAbs, deltaZAbs, deltaYAbs, lastDeltaX, lastDeltaY, lastDeltaZ,
             lastDeltaXZ, lastDeltaYaw, lastDeltaPitch, lastDeltaYawAbs, lastDeltaPitchAbs,
@@ -36,6 +37,7 @@ public class MovementProcessor extends Processor {
             case CLIENT_POSITION:
             case CLIENT_LOOK:
             case CLIENT_POSITION_LOOK: {
+
                 WrapperPlayClientPlayerFlying flyingPacket = new WrapperPlayClientPlayerFlying(event);
 
                 double x = flyingPacket.getLocation().getX();
@@ -112,7 +114,6 @@ public class MovementProcessor extends Processor {
 
                     this.deltaYawAbs = Math.abs(this.to.getYaw() - this.from.getYaw());
                     this.deltaPitchAbs = Math.abs(this.to.getPitch() - this.from.getPitch());
-
                 }
 
                 ++this.tick;
