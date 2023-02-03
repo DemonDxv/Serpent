@@ -5,3 +5,4 @@ Serpent.iml
 *.properties
 *.lst
 *.jar
+target/classes/plugin.yml
